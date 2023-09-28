@@ -1,8 +1,13 @@
-const streams = new Map(); // Map to keep track of client IDs and WebSocket connections
-const { SESSION_SECRET, SESSION_NAME } = require('./session');
-const cookieParser = require('cookie-parser');
+const express = require('express');
+const router = express.Router();
+const cookieParser = require("cookie-parser");
+const {SESSION_NAME, SESSION_SECRET} = require("../session");
 
-liveUsersFunc = (ws, req) => {
+
+// Variables
+const streams = new Map(); // Map to keep track of client IDs and WebSocket connections
+
+router.ws("/", (ws, req) => {
     const streamId = req.query.streamId
         || req.query['stream-id']
     ; // Extract the client ID from the query parameters
@@ -50,7 +55,7 @@ liveUsersFunc = (ws, req) => {
 
         console.log(`Client ${ clientId } disconnected from stream ${ streamId }`);
     });
-};
+});
 
 function broadcastUsersCount(streamId) {
     // Send the updated count to all connected clients
@@ -72,4 +77,4 @@ function broadcastMessage(message, streamId, senderClientId) {
     });
 }
 
-module.exports = liveUsersFunc;
+module.exports = router;
