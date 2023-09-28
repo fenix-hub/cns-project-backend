@@ -9,10 +9,14 @@ const app = express();
 
 
 // view engine setup
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(logger('dev'));
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(cors({
+    credentials: true,
+    origin: true,
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -28,9 +32,10 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 
 const usersRouter = require('./routes/users');
-const streamRouter = require('./routes/stream');
+const streamRouter = require('./routes/streams');
 
 app.use('/users', usersRouter);
-app.use('/stream', streamRouter);
+app.use('/streams', streamRouter);
+app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;
