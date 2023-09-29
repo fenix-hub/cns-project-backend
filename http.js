@@ -4,12 +4,12 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors");
 const session = require("express-session");
+const requestIp = require("request-ip");
 
 const app = express();
 
 
-// view engine setup
-
+app.use(requestIp.mw())
 app.use(logger('dev'));
 app.use(cors({
     credentials: true,
@@ -31,10 +31,10 @@ const sessionConfig = {
 
 app.use(session(sessionConfig))
 
-const usersRouter = require('./routes/users');
+const sessionRouter = require('./routes/sessions');
 const streamRouter = require('./routes/streams');
 
-app.use('/users', usersRouter);
+app.use('/sessions', sessionRouter);
 app.use('/streams', streamRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 

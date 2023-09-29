@@ -39,3 +39,18 @@ Websocket and query-string libraries were added to support websocket.
 ```
 npm install ws query-string
 ```
+
+Install request-ip to get the ip address of the client
+```
+npm install request-ip
+```
+
+Install mongoose to connect to mongodb
+```
+npm install mongoose
+```
+
+Launch the database
+```
+docker run --name mongodb -d -p 27017:27017 mongodb/mongodb-community-server
+```
