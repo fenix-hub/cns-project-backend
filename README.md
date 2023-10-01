@@ -52,5 +52,5 @@ npm install mongoose
 
 Launch the database
 ```
-docker run --name mongodb -d -p 27017:27017 mongodb/mongodb-community-server
+docker run --name mongodb -d -p 27017:27017 -v mongodb-data:/data/db mongodb/mongodb-community-server
 ```
