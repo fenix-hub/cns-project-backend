@@ -18,6 +18,6 @@ ffmpeg -v info -y -sn -dn -thread_queue_size 64 \
 -extra_window_size 5 \
 -streaming 1 \
 -hls_playlist 1 \
--hls_master_name 'matteo_paiella.m3u8' \
+-hls_master_name 'master.m3u8' \
 -adaptation_sets 'id=0,streams=v id=1,streams=a' \
 -f dash tmp/live.mpd
