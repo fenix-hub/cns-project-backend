@@ -1,5 +1,7 @@
 # CNS Server
 
+![architecture](docs/backend.svg)
+
 This project was created using node (typescript), express and mongodb.
 
 The project was generated using the following command

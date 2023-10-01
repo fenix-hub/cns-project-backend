@@ -1,3 +1,8 @@
+/*
+    * This script initializes the database with some sample data.
+    * It is meant to be run only once, when the database is empty.
+ */
+
 const Stream = require("./stream");
 const mongoose = require("mongoose");
 const dbUrl = 'mongodb://localhost:27017'; // Replace with your MongoDB connection URL and database name
