@@ -2,6 +2,8 @@
 
 ![architecture](docs/backend.svg)
 
+[OpenAPI specs](docs/openapi.yaml)
+
 This project was created using node (typescript), express and mongodb.
 
 The project was generated using the following command
