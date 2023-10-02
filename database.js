@@ -1,7 +1,12 @@
-const mongoose = require('mongoose');
-const dbUrl = 'mongodb://localhost:27017'; // Replace with your MongoDB connection URL and database name
+/*
+ * database.js
+ *
+ * This script creates a connection to a MongoDB database.
+ */
 
-module.exports = function connect() {
+const mongoose = require('mongoose');
+
+module.exports = function connect(dbUrl) {
     mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true});
 
     const db = mongoose.connection;

@@ -1,0 +1,242 @@
+openapi: 3.0.0
+info:
+  title: CNS Express API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: sessions
+  - name: streams
+  - name: videos
+paths:
+  /streams:
+    get:
+      tags:
+        - streams
+      summary: Get the list of available streams
+      parameters:
+        - in: cookie
+          name: cns.connect.sid
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Stream ID
+                    name:
+                      type: string
+                      description: Stream name
+                    description:
+                      type: string
+                      description: Stream description
+                    src:
+                      type: string
+                      description: Stream source URL
+                    resolutions:
+                      type: array
+                      items:
+                        type: string
+                      description: Supported resolutions
+
+  /streams/{streamId}/stopped:
+    post:
+      tags:
+        - streams
+      summary: Handle stream stopped event
+      parameters:
+        - in: cookie
+          name: cns.connect.sid
+          schema:
+            type: string
+        - in: path
+          name: streamId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /streams/{streamId}/started:
+    post:
+      tags:
+        - streams
+      summary: Handle stream started event
+      parameters:
+        - in: cookie
+          name: cns.connect.sid
+          schema:
+            type: string
+        - in: path
+          name: streamId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /streams/{streamId}/view:
+    post:
+      tags:
+        - streams
+      summary: Handle stream view event
+      parameters:
+        - in: cookie
+          name: cns.connect.sid
+          schema:
+            type: string
+        - name: streamId
+          in: path
+          description: Stream ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resolution:
+                  type: string
+                  description: Stream resolution
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientIp:
+                    type: string
+                    description: Client IP address
+                  userAgent:
+                    type: string
+                    description: User agent
+                  sessionId:
+                    type: string
+                    description: Session ID
+                  streamId:
+                    type: string
+                    description: Stream ID
+                  resolution:
+                    type: string
+                    description: Stream resolution
+                  views:
+                    type: integer
+                    description: Number of views
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the response
+
+  /sessions:
+    get:
+      tags:
+        - sessions
+      summary: Get the list of all sessions ever created
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    description: Session ID
+                  clientIp:
+                    type: string
+                    description: Client IP address
+                  userAgent:
+                    type: string
+                    description: User agent
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the response
+    post:
+      tags:
+        - sessions
+      summary: Obtain a new session, or get the current one if already exists
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    description: Session ID
+                  clientIp:
+                    type: string
+                    description: Client IP address
+                  userAgent:
+                    type: string
+                    description: User agent
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the response
+  /videos/tmp/{videoName}:
+    get:
+      tags:
+        - videos
+      summary: Request .m3u8 file associated to a stream.
+      parameters:
+        - in: cookie
+          name: cns.connect.sid
+          schema:
+            type: string
+        - name: videoName
+          in: path
+          description: Video Name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    description: Session ID
+                  clientIp:
+                    type: string
+                    description: Client IP address
+                  userAgent:
+                    type: string
+                    description: User agent
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the response

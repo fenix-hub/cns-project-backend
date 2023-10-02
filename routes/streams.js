@@ -1,9 +1,21 @@
+/*
+ * routes/streams.js
+ *
+ * This scripts contains all the endpoints (paths) associated to the Stream Router.
+ * A "stream" both identifies a video or a live stream.
+ */
+
 const express = require('express');
 const Stream = require("../schema/stream");
 const Metrics = require("../schema/metrics");
 const View = require("../schema/view");
 const router = express.Router();
 
+/*
+ * GET /streams
+ *
+ * Get the list of all the streams stored in the database.
+ */
 router.get('/', async function (req, res, next) {
     res.status(200).json(await Stream.find({}));
 });
@@ -13,19 +25,40 @@ router.get('/', async function (req, res, next) {
 //     res.status(200).json(await Stream.findOne({id: streamId}));
 // });
 
+/*
+ * GET /streams/:id
+ *
+ * Get information related to a specific stream, looked up by its id.
+ */
 router.get('/:id', async function (req, res, next) {
     const {id} = req.params;
     res.status(200).json(await Stream.findOne({_id: id}));
 });
 
+/*
+ * POST /streams/:id/stopped
+ *
+ * Notify the server about a "stop" event on a specific stream from a client.
+ */
 router.post('/:id/stopped', function (req, res, next) {
     res.send('respond with a resource');
 });
 
+/*
+ * POST /streams/:id/started
+ *
+ * Notify the server about a "start" event on a specific stream from a client.
+ */
 router.post('/:id/started', function (req, res, next) {
     res.send('respond with a resource');
 });
 
+/*
+ * POST /streams/:id/views
+ *
+ * Notify the server about a "view" event on a specific stream from a client.
+ * A "view" is counted on the client only when some specific conditions are observed.
+ */
 router.post('/:id/views', (req, res) => {
     // Extract stream ID and resolution from the request body
     const {screenSize, resolution} = req.body;
@@ -62,12 +95,23 @@ router.post('/:id/views', (req, res) => {
 
 });
 
+/*
+ * GET /streams/:id/views
+ *
+ * Get the list of all the views associated to a specific stream.
+ */
 router.get('/:id/views', async (req, res) => {
     const {id} = req.params;
     const views = await View.find({streamId: id});
     res.status(200).json(views);
 });
 
+/*
+ * POST /streams/:id/metrics
+ *
+ * Send metrics associated to a stream while a client is consuming it.
+ * Metrics are uniquely associated to a stream and a session (user/client)
+ */
 router.post('/:id/metrics', (req, res) => {
     const {id} = req.params;
     const {
@@ -99,6 +143,12 @@ router.post('/:id/metrics', (req, res) => {
     });
 });
 
+
+/*
+ * GET /streams/:id/metrics
+ *
+ * Get all metrics associated to a stream and a session
+ */
 router.get('/:id/metrics', async (req, res) => {
     const {id} = req.params;
     const metrics = await Metrics.find({streamId: id});

@@ -1,3 +1,15 @@
+/*
+ * routes/live-users.js
+ *
+ * This scripts contains the logic associated to the Live Users websocket path.
+ * A client can notify the server about a "session" consuming a stream by connecting to the websocket
+ * with an active session. A session must be obtained through the Stream Router (see routes/streams.js)
+ * A client must send the ID associated to the Stream it is consuming, and eventually a Client ID to identify itself (if a session is not created).
+ * Each connected client will receive a message about the total amount of connected users consuming the same stream,
+ * each time a client joins or leaves the stream. (i.e. { "liveUsersCount" : 3 })
+ * Clients are also able to send messages in broadcast to "sessions" consuming the same stream.
+ */
+
 const express = require('express');
 const router = express.Router();
 const cookieParser = require("cookie-parser");
