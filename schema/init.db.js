@@ -8,9 +8,12 @@ const mongoose = require("mongoose");
 const dbUrl = 'mongodb://localhost:27017'; // Replace with your MongoDB connection URL and database name
 const hash = require('object-hash');
 
+const firstId = "7bc5358b02a150b834fa9aa44e928b9e6bf20848";
+// should be hash(Date.now())
+
 const streams = [
     new Stream({
-        id: hash(Date.now()),
+        id: firstId,
         name: "Matteo Paiella",
         description: "Matteo Paiella fa il panino",
         ref: "http://localhost:3000/videos/tmp/master.m3u8",
