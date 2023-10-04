@@ -231,18 +231,6 @@ paths:
                 bandwidth:
                   type: integer
                   description: Bandwidth
-                sessionId:
-                  type: string
-                  description: Session ID
-                clientIp:
-                  type: string
-                  description: Client IP address
-                userAgent:
-                  type: string
-                  description: User agent
-                streamId:
-                  type: string
-                  description: Stream ID
 
       responses:
         '200':
