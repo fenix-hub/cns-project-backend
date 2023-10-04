@@ -30,7 +30,7 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: integer
+                      type: string
                       description: Stream ID
                     name:
                       type: string
@@ -60,7 +60,7 @@ paths:
         - in: path
           name: streamId
           schema:
-            type: integer
+            type: string
           required: true
           description: Numeric ID of the user to get
       responses:
@@ -84,7 +84,7 @@ paths:
         - in: path
           name: streamId
           schema:
-            type: integer
+            type: string
           required: true
           description: Numeric ID of the user to get
       responses:
@@ -110,7 +110,7 @@ paths:
           description: Stream ID
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -167,7 +167,7 @@ paths:
           description: Stream ID
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -314,7 +314,7 @@ paths:
                     type: string
                     format: date-time
                     description: Timestamp of the response
-  /videos/tmp/{videoName}:
+  /videos/{streamId}/master.m3u8:
     get:
       tags:
         - videos
@@ -324,7 +324,7 @@ paths:
           name: cns.connect.sid
           schema:
             type: string
-        - name: videoName
+        - name: streamId
           in: path
           description: Video Name
           required: true
