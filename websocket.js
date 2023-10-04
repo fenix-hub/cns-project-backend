@@ -18,10 +18,8 @@ app.use(cookieParser());
 app.set('trust proxy', 1) // trust first proxy, in order to pass cookies if there's a proxy
 expressWs(app);
 
-const { SESSION_SECRET, SESSION_NAME } = require('./session');
-app.use(session(
-    { secret: SESSION_SECRET, name: SESSION_NAME }
-))
+const sessionConfig = require('./session');
+app.use(session(sessionConfig));
 
 
 const liveUsersRouter = require('./routes/live-users');

@@ -5,7 +5,7 @@
 	xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd"
 	profiles="urn:mpeg:dash:profile:isoff-live:2011"
 	type="static"
-	mediaPresentationDuration="PT32.1S"
+	mediaPresentationDuration="PT13.2S"
 	maxSegmentDuration="PT3.2S"
 	minBufferTime="PT6.4S">
 	<ProgramInformation>
@@ -13,28 +13,28 @@
 	<ServiceDescription id="0">
 	</ServiceDescription>
 	<Period id="0" start="PT0.0S">
-		<AdaptationSet id="0" contentType="video" startWithSAP="1" segmentAlignment="true" bitstreamSwitching="true" maxFrameRate="30/1" maxWidth="406" maxHeight="720" par="9:16">
-			<Representation id="0" mimeType="video/mp4" codecs="avc1.42c00d" bandwidth="500000" width="202" height="360" sar="405:404" frameRate="15/1">
+		<AdaptationSet id="0" contentType="video" startWithSAP="1" segmentAlignment="true" bitstreamSwitching="true" maxFrameRate="30/1" maxWidth="1280" maxHeight="720" par="16:9">
+			<Representation id="0" mimeType="video/mp4" codecs="avc1.42c016" bandwidth="500000" width="640" height="360" sar="1:1" frameRate="15/1">
 				<SegmentTemplate timescale="15360" initialization="init-$RepresentationID$-.m4s" media="frag-$Number$-$RepresentationID$-.m4s" startNumber="1">
 					<SegmentTimeline>
-						<S t="0" d="49152" r="9" />
-						<S d="2048" />
+						<S t="0" d="49152" r="3" />
+						<S d="7168" />
 					</SegmentTimeline>
 				</SegmentTemplate>
 			</Representation>
-			<Representation id="2" mimeType="video/mp4" codecs="avc1.4d4015" bandwidth="1000000" width="304" height="540" sar="1215:1216" frameRate="25/1">
+			<Representation id="2" mimeType="video/mp4" codecs="avc1.4d401f" bandwidth="1000000" width="960" height="540" sar="1:1" frameRate="25/1">
 				<SegmentTemplate timescale="12800" initialization="init-$RepresentationID$-.m4s" media="frag-$Number$-$RepresentationID$-.m4s" startNumber="1">
 					<SegmentTimeline>
-						<S t="0" d="40960" r="9" />
-						<S d="1536" />
+						<S t="0" d="40960" r="3" />
+						<S d="6144" />
 					</SegmentTimeline>
 				</SegmentTemplate>
 			</Representation>
-			<Representation id="4" mimeType="video/mp4" codecs="avc1.64001e" bandwidth="2000000" width="406" height="720" sar="405:406" frameRate="30/1">
+			<Representation id="4" mimeType="video/mp4" codecs="avc1.64001f" bandwidth="2000000" width="1280" height="720" sar="1:1" frameRate="30/1">
 				<SegmentTemplate timescale="15360" initialization="init-$RepresentationID$-.m4s" media="frag-$Number$-$RepresentationID$-.m4s" startNumber="1">
 					<SegmentTimeline>
-						<S t="0" d="49152" r="9" />
-						<S d="2048" />
+						<S t="0" d="49152" r="3" />
+						<S d="7168" />
 					</SegmentTimeline>
 				</SegmentTemplate>
 			</Representation>
@@ -44,9 +44,11 @@
 				<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
 				<SegmentTemplate timescale="48000" initialization="init-$RepresentationID$-.m4s" media="frag-$Number$-$RepresentationID$-.m4s" startNumber="1">
 					<SegmentTimeline>
-						<S t="0" d="152576" />
-						<S d="153600" r="8" />
-						<S d="5343" />
+						<S t="0" d="153708" />
+						<S d="153597" />
+						<S d="153598" />
+						<S d="153597" />
+						<S d="22528" />
 					</SegmentTimeline>
 				</SegmentTemplate>
 			</Representation>
@@ -54,9 +56,11 @@
 				<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
 				<SegmentTemplate timescale="48000" initialization="init-$RepresentationID$-.m4s" media="frag-$Number$-$RepresentationID$-.m4s" startNumber="1">
 					<SegmentTimeline>
-						<S t="0" d="152576" />
-						<S d="153600" r="8" />
-						<S d="5343" />
+						<S t="0" d="153708" />
+						<S d="153597" />
+						<S d="153598" />
+						<S d="153597" />
+						<S d="22528" />
 					</SegmentTimeline>
 				</SegmentTemplate>
 			</Representation>
@@ -64,9 +68,11 @@
 				<AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
 				<SegmentTemplate timescale="48000" initialization="init-$RepresentationID$-.m4s" media="frag-$Number$-$RepresentationID$-.m4s" startNumber="1">
 					<SegmentTimeline>
-						<S t="0" d="152576" />
-						<S d="153600" r="8" />
-						<S d="5343" />
+						<S t="0" d="153708" />
+						<S d="153597" />
+						<S d="153598" />
+						<S d="153597" />
+						<S d="22528" />
 					</SegmentTimeline>
 				</SegmentTemplate>
 			</Representation>

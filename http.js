@@ -36,13 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set('trust proxy', 1) // trust first proxy
 
-const { SESSION_SECRET, SESSION_NAME } = require('./session');
-
-const sessionConfig = {
-    secret: SESSION_SECRET,
-    name: SESSION_NAME,
-}
-
+const sessionConfig = require('./session');
 app.use(session(sessionConfig))
 
 // The "session" router, handling requests associated to "SESSIONS"

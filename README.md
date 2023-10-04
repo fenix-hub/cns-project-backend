@@ -90,8 +90,9 @@ Default values will be used if the environment variables are not set.
 ## Initialize the database
 
 The `schema/init.db.js` file contains the code to initialize the database.
+The script can be started through the following command.
 ```bash
-node schema/init.db.js
+npm run init-db
 ```
 
 ## Run the server

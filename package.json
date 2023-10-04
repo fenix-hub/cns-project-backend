@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "init-db": "node app.js --init-db",
     "start": "nodemon app.js"
   },
   "dependencies": {
