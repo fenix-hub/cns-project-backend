@@ -152,6 +152,129 @@ paths:
                     format: date-time
                     description: Timestamp of the response
 
+  /streams/{streamId}/metrics:
+    post:
+      tags:
+        - streams
+      summary: Post steam metrics
+      parameters:
+        - in: cookie
+          name: cns.connect.sid
+          schema:
+            type: string
+        - name: streamId
+          in: path
+          description: Stream ID
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trigger:
+                  type: string
+                  description: Trigger
+                timestamp:
+                  type: string
+                  description: Timestamp
+                screenSize:
+                  type: object
+                  properties:
+                    width:
+                      type: integer
+                      description: Screen width
+                    height:
+                      type: integer
+                      description: Screen height
+                mediaLevel:
+                  type: object
+                  properties:
+                    resolution:
+                      type: string
+                      description: Stream resolution
+                    bandwidth:
+                      type: integer
+                      description: Stream bandwidth
+                    level:
+                      type: integer
+                      description: Stream level
+                    media:
+                      type: string
+                      description: Stream media
+                streamedTime:
+                  type: integer
+                  description: Streamed time
+                downloadedBytes:
+                  type: integer
+                  description: Downloaded bytes
+                bufferings:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      timestamp:
+                        type: string
+                        description: Timestamp
+                      videoTimestamp:
+                        type: integer
+                        description: Video timestamp
+                      duration:
+                        type: integer
+                        description: Duration
+                downloadRate:
+                  type: integer
+                  description: Download rate
+                bandwidth:
+                  type: integer
+                  description: Bandwidth
+                sessionId:
+                  type: string
+                  description: Session ID
+                clientIp:
+                  type: string
+                  description: Client IP address
+                userAgent:
+                  type: string
+                  description: User agent
+                streamId:
+                  type: string
+                  description: Stream ID
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientIp:
+                    type: string
+                    description: Client IP address
+                  userAgent:
+                    type: string
+                    description: User agent
+                  sessionId:
+                    type: string
+                    description: Session ID
+                  streamId:
+                    type: string
+                    description: Stream ID
+                  resolution:
+                    type: string
+                    description: Stream resolution
+                  views:
+                    type: integer
+                    description: Number of views
+                  timestamp:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the response
+
   /sessions:
     get:
       tags:
