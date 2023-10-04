@@ -10,7 +10,7 @@
 const httpPort = process.env.HTTP_PORT || 3000;
 const wsPort = process.env.WS_PORT || 3001;
 // Database URL configuration varaible, either environment variable or local variable
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017'; // Replace with your MongoDB connection URL and database name
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/cns'; // Replace with your MongoDB connection URL and database name
 
 const http = require('./http');
 const ws = require('./websocket');
