@@ -13,7 +13,7 @@
 const express = require('express');
 const router = express.Router();
 const cookieParser = require("cookie-parser");
-const {SESSION_NAME, SESSION_SECRET} = require("../session");
+const {name} = require("../session");
 
 
 // Variables
@@ -23,10 +23,11 @@ router.ws("/", (ws, req) => {
     const streamId = req.query.streamId
         || req.query['stream-id']
     ; // Extract the client ID from the query parameters
-    const clientId = cookieParser.signedCookie(req.cookies[SESSION_NAME], SESSION_SECRET)
+    const clientId = req.cookies[name]
         || req.query.clientId
         || req.query['client-id']
     ; // Extract the client ID from the query parameters
+    req.session.connections++;
 
     let missingParams = [];
 
@@ -48,10 +49,11 @@ router.ws("/", (ws, req) => {
     console.log(`Client ${ clientId } connected to stream ${ streamId }`);
 
     // Send the live users count to this client
-    ws.send(JSON.stringify({ liveUsersCount: streams.get(streamId).size }));
+    broadcastUsersCount(streamId);
 
     ws.on('message', (message) => {
         // Broadcast the message to all connected clients
+        console.log(`Client ${ clientId } sent message to stream ${ streamId }`)
         broadcastMessage(message, streamId, clientId);
     });
 

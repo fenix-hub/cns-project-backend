@@ -43,7 +43,8 @@ router.post('/', async function (req, res, next) {
     const userAgent = req.headers['user-agent'];
 
     // Extract session ID from cookies
-    const sessionId = req.session.id;
+    const sessionId = req.session.id
+    req.session.connections++;
 
     await User.findOne({sessionId: sessionId, clientIp: clientIp, userAgent: userAgent})
         .then((user) => {

@@ -95,7 +95,7 @@ paths:
               schema:
                 type: string
 
-  /streams/{streamId}/view:
+  /streams/{streamId}/views:
     post:
       tags:
         - streams
