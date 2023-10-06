@@ -23,6 +23,7 @@ const streams = [
 ]
 
 module.exports = () => {
+    let ctr = 0;
     streams.forEach((stream) => {
         stream.save().then(
             () => {
@@ -30,8 +31,11 @@ module.exports = () => {
             }
         ).finally(
             () => {
-                console.log("Database initialized");
-                process.exit(0);
+                ctr ++;
+                if (ctr === streams.length) {
+                    console.log("Database initialized");
+                    process.exit(0);
+                }
             }
         )
     });
