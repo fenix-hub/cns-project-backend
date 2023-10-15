@@ -6,10 +6,10 @@
  */
 
 const express = require('express');
+const router = express.Router();
 const Stream = require("../schema/stream");
 const Metrics = require("../schema/metrics");
 const View = require("../schema/view");
-const router = express.Router();
 
 /*
  * GET /streams
@@ -118,7 +118,7 @@ router.post('/:id/metrics', (req, res) => {
         trigger,
         timestamp,
         screenSize,
-        mediaLevel,
+        mediaLevel: currentMediaLevel,
         streamedTime,
         downloadedBytes,
         bufferings,
@@ -151,9 +151,10 @@ router.post('/:id/metrics', (req, res) => {
  */
 router.get('/:id/metrics', async (req, res) => {
     const {id} = req.params;
-    const metrics = await Metrics.find({streamId: id});
+    const metrics = await Metrics.find({streamId: id})
     res.status(200).json(metrics);
 });
+
 
 function getClientInfo(req) {
     return {

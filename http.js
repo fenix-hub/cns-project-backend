@@ -43,9 +43,12 @@ app.use(session(sessionConfig))
 const sessionRouter = require('./routes/sessions');
 // The "stream" router, handling requests regarding Videos and Streams
 const streamRouter = require('./routes/streams');
+// The "analytics" router, handling requests regarding Analytics
+const analyticsRouter = require('./routes/analytics');
 
 app.use('/sessions', sessionRouter);
 app.use('/streams', streamRouter);
+app.use('/analytics', analyticsRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;
