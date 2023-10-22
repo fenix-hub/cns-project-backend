@@ -12,13 +12,15 @@ const firstId = "7bc5358b02a150b834fa9aa44e928b9e6bf20848";
 const streams = [
     new Stream({
         id: firstId,
+        streamKey: firstId,
         name: "Lago Storo",
         description: "Vista del lago di Storo",
-        ref: `http://localhost:3000/videos/${firstId}/master.m3u8`,
+        ref: `http://localhost:3000/streams/${firstId}/master.m3u8`,
         resolutions: [
             '640x360', '960x540', '1290x720'
         ],
         createdAt: new Date().toISOString(),
+        isLive: false
     }),
 ]
 

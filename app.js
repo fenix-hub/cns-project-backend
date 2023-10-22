@@ -20,6 +20,7 @@ if (process.argv[2] && process.argv[2] === '--init-db') {
 
 const http = require('./http');
 const ws = require('./websocket');
+const nms = require('./nms');
 
 http.listen(httpPort, () => {
   console.log(`Express app listening on port ${httpPort}`);
@@ -28,3 +29,5 @@ http.listen(httpPort, () => {
 ws.listen(wsPort, () => {
   console.log(`WebSocket server listening on port ${wsPort}`);
 });
+
+nms.run();

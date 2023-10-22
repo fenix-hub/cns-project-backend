@@ -19,6 +19,8 @@ const router = express.Router();
 const User = require('../schema/user');
 const View = require("../schema/view");
 const Metrics = require("../schema/metrics");
+const {name} = require("../session");
+
 
 /*
  * GET /sessions 
@@ -60,13 +62,13 @@ router.post('/', async function (req, res, next) {
                     const newUser = new User(response);
                     newUser.save().then(
                         (session) => {
-                            console.log("User saved to database");
+                            console.log(`${sessionId} saved to database`);
                             // Send a response back to the client
                             res.status(200).json(session);
                         }
                     );
                 } else {
-                    console.log("User already exists")
+                    console.log(`${sessionId} already exists`);
                     res.status(200).json(user);
                 }
             }

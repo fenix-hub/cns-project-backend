@@ -7,7 +7,7 @@ const metricsSchema = new Schema({
     trigger: String,
     timestamp: String,
     screenSize: { width: Number, height: Number },
-    mediaLevel: { resolution: String, bandwidth: Number, level: Number, media: String, duration: Number },
+    mediaLevel: { resolution: String, bandwidth: Number, level: Number, media: String },
     streamedTime: Number,
     downloadedBytes: Number,
     bufferings: [{ timestamp: String, videoTimestamp: Number, duration: Number}],

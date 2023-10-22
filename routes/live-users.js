@@ -23,8 +23,7 @@ router.ws("/", (ws, req) => {
     const streamId = req.query.streamId
         || req.query['stream-id']
     ; // Extract the client ID from the query parameters
-    const clientId = req.cookies[name]
-        || req.query.clientId
+    const clientId = req.query.clientId
         || req.query['client-id']
     ; // Extract the client ID from the query parameters
     req.session.connections++;

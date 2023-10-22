@@ -9,7 +9,7 @@
  * "cookie-parser" middleware is used in order to read cookies from a request Object
  *
  * The HTTP Server currently servers several paths following a RESTful approach,
- * and also servers an internal directory on the filesystem to expose HLS/DASH videos.
+ * and also servers an internal directory on the filesystem to expose HLS/DASH streams.
  */
  
 const express = require('express');

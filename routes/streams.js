@@ -12,6 +12,15 @@ const Metrics = require("../schema/metrics");
 const View = require("../schema/view");
 
 /*
+ * POST /streams/key
+ *
+ * Create a new stream and return its key.
+ */
+router.post('/key', async function (req, res, next) {
+    return res.status(200).json({key: await Stream.generateKey()});
+});
+
+/*
  * GET /streams
  *
  * Get the list of all the streams stored in the database.
@@ -20,11 +29,6 @@ router.get('/', async function (req, res, next) {
     res.status(200).json(await Stream.find({}));
 });
 
-// router.get('/:streamId', async function (req, res, next) {
-//     const { streamId } = req.params;
-//     res.status(200).json(await Stream.findOne({id: streamId}));
-// });
-
 /*
  * GET /streams/:id
  *
@@ -32,7 +36,7 @@ router.get('/', async function (req, res, next) {
  */
 router.get('/:id', async function (req, res, next) {
     const {id} = req.params;
-    res.status(200).json(await Stream.findOne({_id: id}));
+    res.status(200).json(await Stream.findOne({id: id}));
 });
 
 /*
@@ -114,23 +118,14 @@ router.get('/:id/views', async (req, res) => {
  */
 router.post('/:id/metrics', (req, res) => {
     const {id} = req.params;
-    const {
-        trigger,
-        timestamp,
-        screenSize,
-        mediaLevel: currentMediaLevel,
-        streamedTime,
-        downloadedBytes,
-        bufferings,
-        downloadRate,
-        bandwidth
-    } = req.body;
+    const metrics = req.body;
+    metrics.mediaLevel = req.body.currentMediaLevel;
 
     // Extract client IP address and user agent
     const {clientIp, userAgent, sessionId} = getClientInfo(req);
 
     Metrics(
-        { ...req.body, clientIp, userAgent, sessionId, streamId: id }
+        { ...metrics, clientIp, userAgent, sessionId, streamId: id }
     ).save().then(
         (metrics) => {
             console.log("Metrics saved to database");

@@ -7,7 +7,7 @@ servers:
 tags:
   - name: sessions
   - name: streams
-  - name: videos
+  - name: metrics
 paths:
   /streams:
     get:
@@ -317,7 +317,7 @@ paths:
   /videos/{streamId}/master.m3u8:
     get:
       tags:
-        - videos
+        - streams
       summary: Request .m3u8 file associated to a stream.
       parameters:
         - in: cookie
