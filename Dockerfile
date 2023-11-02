@@ -44,7 +44,7 @@ RUN npm i --only=production
 COPY --chown=node:node --from=builder /app/dist ./dist
 
 # Open desired port
-EXPOSE 3000
+EXPOSE 3000 3001 1935
 
 # Use js files to run the application
 ENTRYPOINT ["node", "./dist/index.js"]  
