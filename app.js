@@ -6,11 +6,15 @@
  * in order to make the whole project more readable.
  */
 
+require('dotenv').config()
 // Start listening on different ports
 const httpPort = process.env.HTTP_PORT || 3000;
 const wsPort = process.env.WS_PORT || 3001;
 // Database URL configuration varaible, either environment variable or local variable
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/cns'; // Replace with your MongoDB connection URL and database name
+const dbUrl = `mongodb://${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '27017'}/${process.env.DB_NAME || 'cns'}`;
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+logger.level = 'info';
 
 const db = require('./database')(dbUrl);
 
@@ -23,11 +27,11 @@ const ws = require('./websocket');
 const nms = require('./nms');
 
 http.listen(httpPort, () => {
-  console.log(`Express app listening on port ${httpPort}`);
+  logger.info(`Express app listening on port: ${httpPort}`);
 });
 
 ws.listen(wsPort, () => {
-  console.log(`WebSocket server listening on port ${wsPort}`);
+  logger.info(`WebSocket server listening on port: ${wsPort}`);
 });
 
 nms.run();

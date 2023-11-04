@@ -1,4 +1,4 @@
-FROM node:14-alpine AS node
+FROM node:20-alpine AS node
 
 
 # Builder stage
@@ -12,13 +12,10 @@ WORKDIR /app
 COPY package*.json ./   
 
 # Install all dependencies
-RUN npm i               
+RUN npm i --only=production
 
 # Copy the rest of the code
-COPY . .                
-
-# Invoke the build script to transpile code to js
-RUN npm run build       
+COPY . .
 
 
 # Final stage
@@ -26,25 +23,19 @@ RUN npm run build
 FROM node AS final
 
 # Prepare destination directory and ensure user node owns it
-RUN mkdir -p /home/node/app/dist && chown -R node:node /home/node/app
+RUN mkdir /home/node/app && chown -R node:node /home/node/app
 
 # Set CWD
 WORKDIR /home/node/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
 # Switch to user node
 USER node
 
-# Install libraries as user node
-RUN npm i --only=production
-
 # Copy js files and change ownership to user node
-COPY --chown=node:node --from=builder /app/dist ./dist
+COPY --chown=node:node --from=builder /app ./app
 
 # Open desired port
 EXPOSE 3000 3001 1935
 
 # Use js files to run the application
-ENTRYPOINT ["node", "./dist/index.js"]  
+ENTRYPOINT ["node", "app.js"]

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const NodeMediaServer = require('node-media-server');
 const Stream = require("./schema/stream");
 const ffmpeg = require('./ffmpeg');
@@ -5,7 +6,7 @@ const ffmpegSessions = {};
 
 const config = {
     rtmp: {
-        port: 1935, // Porta RTMP
+        port: ( process.env.RTMP_PORT || 1935 ), // Porta RTMP
         chunk_size: 60000,
         gop_cache: true,
         ping: 60,

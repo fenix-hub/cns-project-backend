@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Stream = require("../schema/stream");
 const Metrics = require("../schema/metrics");
 const View = require("../schema/view");
-const User = require("../schema/user");
 
 // Metriche per singolo stream
 router.get('/streams', async (req, res) => {

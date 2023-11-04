@@ -11,7 +11,8 @@
  * The HTTP Server currently servers several paths following a RESTful approach,
  * and also servers an internal directory on the filesystem to expose HLS/DASH streams.
  */
- 
+
+require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');

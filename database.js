@@ -4,6 +4,7 @@
  * This script creates a connection to a MongoDB database.
  */
 
+require('dotenv').config()
 const mongoose = require('mongoose');
 
 module.exports = function connect(dbUrl) {

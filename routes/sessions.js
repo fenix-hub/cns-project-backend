@@ -17,9 +17,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../schema/user');
-const View = require("../schema/view");
-const Metrics = require("../schema/metrics");
-const {name} = require("../session");
 
 
 /*

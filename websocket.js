@@ -6,11 +6,13 @@
  * managed by the HTTP Server (see http.js)
 */
 
+require('dotenv').config()
 const express = require("express");
 const session = require("express-session");
 const cookieParser = require('cookie-parser');
 const expressWs = require("express-ws");
 const app = express();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

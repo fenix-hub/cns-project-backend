@@ -1,11 +1,17 @@
+require('dotenv').config()
 const { spawn } = require('node:child_process');
 const fs = require('fs');
 
-let ffmpeg = 'C:/Users/nsant/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-6.0-full_build/bin/ffmpeg.exe';
-let inPath = "rtmp://localhost:1935";
+let ffmpeg = process.env.FFMPEG_PATH;
+let inPath = "rtmp://localhost:" + ( process.env.RTMP_PORT || 1935 );
 let outPath = './public';
 
 let debug = false;
+
+if (!ffmpeg) {
+    console.error("FFMPEG_PATH environment variable not set");
+    process.exit(1);
+}
 
 module.exports = function run(id, streamPath) {
     let output = `${outPath}${streamPath}`;
