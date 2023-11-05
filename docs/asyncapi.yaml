@@ -1,0 +1,45 @@
+asyncapi: '2.3.0'
+info:
+  title: Live Users WebSocket API
+  version: 1.0.0
+  description: API for WebSocket communication to manage live users in streams
+
+servers:
+  public:
+    url: http://localhost:3001
+    protocol: ws
+
+channels:
+  live-users:
+    subscribe:
+      summary: Notify clients about the count of live users consuming the same stream
+      message:
+        $ref: '#/components/messages/LiveUsersCount'
+
+    publish:
+      summary: Broadcast messages to clients consuming the same stream
+      message:
+        $ref: '#/components/messages/BroadcastMessage'
+
+components:
+  messages:
+    LiveUsersCount:
+      payload:
+        type: object
+        properties:
+          liveUsersCount:
+            type: integer
+        required:
+          - liveUsersCount
+
+    BroadcastMessage:
+      payload:
+        type: object
+        properties:
+          senderClientId:
+            type: string
+          message:
+            type: string
+        required:
+          - senderClientId
+          - message

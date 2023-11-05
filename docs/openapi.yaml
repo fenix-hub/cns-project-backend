@@ -1,171 +1,113 @@
 openapi: 3.0.0
 info:
-  title: CNS Express API
+  title: CNS HTTP Stream API
   version: 1.0.0
+  description: API for the HTTP server 
+
 servers:
-  - url: http://localhost:3000
+ - url: http://localhost:3000
+
 tags:
-  - name: sessions
-  - name: streams
-  - name: metrics
+  - name: Streams
+    description: APIs related to stream operations
+  - name: Sessions
+    description: APIs related to session operations
+  - name: Metrics
+    description: APIs related to metrics and streams
+
 paths:
-  /streams:
-    get:
+  /streams/key:
+    post:
+      summary: Create a new stream and return its key
       tags:
-        - streams
-      summary: Get the list of available streams
-      parameters:
-        - in: cookie
-          name: cns.connect.sid
-          schema:
-            type: string
+        - Streams
       responses:
         '200':
-          description: Successful response
+          description: New stream key generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key:
+                    type: string
+
+  /streams:
+    get:
+      summary: Get the list of all streams
+      tags:
+        - Streams
+      responses:
+        '200':
+          description: List of streams retrieved
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      description: Stream ID
-                    name:
-                      type: string
-                      description: Stream name
-                    description:
-                      type: string
-                      description: Stream description
-                    src:
-                      type: string
-                      description: Stream source URL
-                    resolutions:
-                      type: array
-                      items:
-                        type: string
-                      description: Supported resolutions
+                  $ref: '#/components/schemas/Stream'
 
-  /streams/{streamId}/stopped:
-    post:
+  /streams/{id}:
+    get:
+      summary: Get information about a specific stream
       tags:
-        - streams
-      summary: Handle stream stopped event
+        - Streams
       parameters:
-        - in: cookie
-          name: cns.connect.sid
-          schema:
-            type: string
-        - in: path
-          name: streamId
-          schema:
-            type: string
-          required: true
-          description: Numeric ID of the user to get
-      responses:
-        '200':
-          description: Successful response
-          content:
-            text/plain:
-              schema:
-                type: string
-
-  /streams/{streamId}/started:
-    post:
-      tags:
-        - streams
-      summary: Handle stream started event
-      parameters:
-        - in: cookie
-          name: cns.connect.sid
-          schema:
-            type: string
-        - in: path
-          name: streamId
-          schema:
-            type: string
-          required: true
-          description: Numeric ID of the user to get
-      responses:
-        '200':
-          description: Successful response
-          content:
-            text/plain:
-              schema:
-                type: string
-
-  /streams/{streamId}/views:
-    post:
-      tags:
-        - streams
-      summary: Handle stream view event
-      parameters:
-        - in: cookie
-          name: cns.connect.sid
-          schema:
-            type: string
-        - name: streamId
+        - name: id
           in: path
-          description: Stream ID
           required: true
+          description: ID of the stream
           schema:
             type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                resolution:
-                  type: string
-                  description: Stream resolution
       responses:
         '200':
-          description: Successful response
+          description: Information about the specific stream
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  clientIp:
-                    type: string
-                    description: Client IP address
-                  userAgent:
-                    type: string
-                    description: User agent
-                  sessionId:
-                    type: string
-                    description: Session ID
-                  streamId:
-                    type: string
-                    description: Stream ID
-                  resolution:
-                    type: string
-                    description: Stream resolution
-                  views:
-                    type: integer
-                    description: Number of views
-                  timestamp:
-                    type: string
-                    format: date-time
-                    description: Timestamp of the response
+                $ref: '#/components/schemas/Stream'
 
-  /streams/{streamId}/metrics:
     post:
+      summary: Notify server about a "start" event on a specific stream
       tags:
-        - streams
-      summary: Post steam metrics
+        - Streams
       parameters:
-        - in: cookie
-          name: cns.connect.sid
+        - name: id
+          in: path
+          required: true
+          description: ID of the stream
           schema:
             type: string
-        - name: streamId
+      responses:
+        '200':
+          description: Event notification received
+
+  /streams/{id}/stopped:
+    post:
+      summary: Notify server about a "stop" event on a specific stream
+      tags:
+        - Streams
+      parameters:
+        - name: id
           in: path
-          description: Stream ID
           required: true
+          description: ID of the stream
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Event notification received
+
+  /streams/{id}/views:
+    post:
+      summary: Notify server about a "view" event on a specific stream
+      tags:
+        - Streams
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the stream
           schema:
             type: string
       requestBody:
@@ -175,179 +117,315 @@ paths:
             schema:
               type: object
               properties:
-                trigger:
-                  type: string
-                  description: Trigger
-                timestamp:
-                  type: string
-                  description: Timestamp
                 screenSize:
                   type: object
                   properties:
                     width:
-                      type: integer
-                      description: Screen width
+                      type: number
                     height:
-                      type: integer
-                      description: Screen height
-                mediaLevel:
-                  type: object
-                  properties:
-                    resolution:
-                      type: string
-                      description: Stream resolution
-                    bandwidth:
-                      type: integer
-                      description: Stream bandwidth
-                    level:
-                      type: integer
-                      description: Stream level
-                    media:
-                      type: string
-                      description: Stream media
-                streamedTime:
-                  type: integer
-                  description: Streamed time
-                downloadedBytes:
-                  type: integer
-                  description: Downloaded bytes
-                bufferings:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      timestamp:
-                        type: string
-                        description: Timestamp
-                      videoTimestamp:
-                        type: integer
-                        description: Video timestamp
-                      duration:
-                        type: integer
-                        description: Duration
-                downloadRate:
-                  type: integer
-                  description: Download rate
-                bandwidth:
-                  type: integer
-                  description: Bandwidth
-
+                      type: number
+                resolution:
+                  type: string
       responses:
         '200':
-          description: Successful response
+          description: View event registered
+
+    get:
+      summary: Get the list of all views associated with a specific stream
+      tags:
+        - Streams
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the stream
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of views associated with the stream
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  clientIp:
-                    type: string
-                    description: Client IP address
-                  userAgent:
-                    type: string
-                    description: User agent
-                  sessionId:
-                    type: string
-                    description: Session ID
-                  streamId:
-                    type: string
-                    description: Stream ID
-                  resolution:
-                    type: string
-                    description: Stream resolution
-                  views:
-                    type: integer
-                    description: Number of views
-                  timestamp:
-                    type: string
-                    format: date-time
-                    description: Timestamp of the response
+                type: array
+                items:
+                  $ref: '#/components/schemas/View'
 
+  /streams/{id}/metrics:
+    post:
+      summary: Send metrics associated to a stream and session
+      tags:
+        - Streams
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the stream
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Metrics'
+      responses:
+        '200':
+          description: Metrics saved
+
+    get:
+      summary: Get all metrics associated with a stream and session
+      tags:
+        - Streams
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the stream
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of metrics associated with the stream
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Metrics'
+    
   /sessions:
     get:
+      summary: Get the list of all sessions
       tags:
-        - sessions
-      summary: Get the list of all sessions ever created
+        - Sessions
       responses:
         '200':
-          description: Successful response
+          description: List of sessions retrieved
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  sessionId:
-                    type: string
-                    description: Session ID
-                  clientIp:
-                    type: string
-                    description: Client IP address
-                  userAgent:
-                    type: string
-                    description: User agent
-                  timestamp:
-                    type: string
-                    format: date-time
-                    description: Timestamp of the response
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
     post:
+      summary: Create a new session or retrieve an existing session
       tags:
-        - sessions
-      summary: Obtain a new session, or get the current one if already exists
+        - Sessions
+      requestBody:
+        required: false
+        content: {}
       responses:
         '200':
-          description: Successful response
+          description: Session created or retrieved
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  sessionId:
-                    type: string
-                    description: Session ID
-                  clientIp:
-                    type: string
-                    description: Client IP address
-                  userAgent:
-                    type: string
-                    description: User agent
-                  timestamp:
-                    type: string
-                    format: date-time
-                    description: Timestamp of the response
-  /videos/{streamId}/master.m3u8:
+                $ref: '#/components/schemas/User'
+
+  /metrics/streams:
     get:
+      summary: Get aggregated metrics for a specific stream
       tags:
-        - streams
-      summary: Request .m3u8 file associated to a stream.
+        - Metrics
       parameters:
-        - in: cookie
-          name: cns.connect.sid
-          schema:
-            type: string
-        - name: streamId
-          in: path
-          description: Video Name
+        - name: id
+          in: query
           required: true
+          description: Stream ID
           schema:
             type: string
       responses:
         '200':
-          description: Successful response
+          description: Aggregated metrics for the specific stream
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  sessionId:
-                    type: string
-                    description: Session ID
-                  clientIp:
-                    type: string
-                    description: Client IP address
-                  userAgent:
-                    type: string
-                    description: User agent
-                  timestamp:
-                    type: string
-                    format: date-time
-                    description: Timestamp of the response
+                $ref: '#/components/schemas/AggregatedStreamMetrics'
+
+  /metrics/sessions:
+    get:
+      summary: Get aggregated metrics for sessions
+      tags:
+        - Metrics
+      parameters:
+        - name: id
+          in: query
+          required: false
+          description: Stream ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Aggregated metrics for sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregatedSessionMetrics'
+
+components:
+  schemas:
+    AggregatedStreamMetrics:
+      type: object
+      properties:
+        totalStreamedBytes:
+          type: number
+        totalStreamedTime:
+          type: number
+        viewList:
+          type: array
+          items:
+            $ref: '#/components/schemas/View'
+
+    AggregatedSessionMetrics:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          mediaLevels:
+            type: array
+            items:
+              type: object
+              properties:
+                level:
+                  type: number
+                totalStreamedTime:
+                  type: number
+                '%totalStreamedTime':
+                  type: number
+              required:
+                - level
+                - totalStreamedTime
+                - '%totalStreamedTime'
+          sessionId:
+            type: string
+          userAgent:
+            type: string
+          clientIp:
+            type: string
+          totalStreamedTime:
+            type: number
+          totalStreamedBytes:
+            type: number
+          bufferingEvents:
+            type: number
+          bufferingTime:
+            type: number
+          downloadRate:
+            type: number
+          bandwidth:
+            type: number
+          screenSizes:
+            type: array
+            items:
+              type: object
+              properties:
+                size:
+                  type: string
+                totalStreamedTime:
+                  type: number
+                '%totalStreamedTime':
+                  type: number
+              required:
+                - size
+                - totalStreamedTime
+                - '%totalStreamedTime'
+    
+    User:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        clientIp:
+          type: string
+        userAgent:
+          type: string
+        timestamp:
+          type: string
+    Stream:
+      type: object
+      properties:
+        id:
+          type: string
+        streamKey:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ref:
+          type: string
+        resolutions:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+        isLive:
+          type: boolean
+
+    View:
+      type: object
+      properties:
+        streamId:
+          type: string
+        sessionId:
+          type: string
+        timestamp:
+          type: string
+
+    Metrics:
+      type: object
+      properties:
+        trigger:
+          type: string
+        timestamp:
+          type: string
+        screenSize:
+          type: object
+          properties:
+            width:
+              type: number
+            height:
+              type: number
+        mediaLevel:
+          type: object
+          properties:
+            resolution:
+              type: string
+            bandwidth:
+              type: number
+            level:
+              type: number
+            media:
+              type: string
+        streamedTime:
+          type: number
+        downloadedBytes:
+          type: number
+        bufferings:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+              videoTimestamp:
+                type: number
+              duration:
+                type: number
+        downloadRate:
+          type: number
+        bandwidth:
+          type: number
+        sessionId:
+          type: string
+        clientIp:
+          type: string
+        userAgent:
+          type: string
+        streamId:
+          type: string
