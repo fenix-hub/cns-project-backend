@@ -71,8 +71,6 @@ router.post('/:id/views', (req, res) => {
     // Extract client IP address and user agent
     const {sessionId} = getClientInfo(req);
 
-    // TODO: Add logic to handle the stream start information (e.g., store in a database)
-
     req.session.views = (req.session.views || 0) + 1;
 
     const response = {
