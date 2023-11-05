@@ -31,7 +31,7 @@ npm install --save-dev nodemon
 
 Two scripts were added to package.json to support running the server and client concurrently and to support hot reloading.
 ```bash
-"start": "nodemon app.js"
+"start": "nodemon index.js"
 ```
 
 Express Session was added to support session management.
@@ -72,14 +72,18 @@ docker run --network mongodb -e ME_CONFIG_MONGODB_SERVER=mongodb -p 8081:8081 mo
 ## Configuration
 
 The `session.js` file contains some configuration for the session management.
-Environment variables are used to configure the server. The `app.js` file contains the following code to load the environment variables.
+Environment variables are used to configure the server. The `index.js` file contains the following code to load the environment variables.
 ```bash
 # the port on which the http server will listen
 HTTP_PORT=3000
 # the port on which the websocket server will listen
 WS_PORT=3001
+# the port on which the rtmp server will listen
+RTMP_PORT=1935
 # the url of the mongodb database
-MONGODB_URL=mongodb://localhost:27017/cns
+DB_HOST=localhost
+DB_PORT=27017
+DB_NAME=cns
 # the secret used to sign the session id
 SESSION_SECRET=secret
 # the name of the cookie used to store the session id

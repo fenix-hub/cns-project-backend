@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  # Express Server
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "1935:1935"
+    depends_on:
+      - mongodb
+    environment:
+      - DB_HOST=mongodb
+      - DB_PORT=27017
+      - DB_NAME=cns
+      - FFMPEG=ffmpeg
+      - RTMP_PORT=1935
+      - HTTP_PORT=3000
+      - WS_PORT=3001
+    networks:
+      - app-network
+
+  # MongoDB
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=cns
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:
