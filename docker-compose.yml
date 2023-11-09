@@ -3,6 +3,7 @@ version: '3.9'
 services:
   # Express Server
   server:
+    hostname: server
     build:
       context: ./backend
       dockerfile: Dockerfile
