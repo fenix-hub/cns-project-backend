@@ -3,10 +3,10 @@ const { spawn } = require('node:child_process');
 const fs = require('fs');
 
 let ffmpeg = require('ffmpeg-static');
-let inPath = "rtmp://localhost:" + ( process.env.RTMP_PORT || 1935 );
+let inPath = "rtmp://127.0.0.1:" + ( process.env.RTMP_PORT || 1935 );
 let outPath = './public';
 
-let debug = false;
+let debug = process.env.DEBUG || false;
 
 module.exports = function run(id, streamPath) {
     let output = `${outPath}${streamPath}`;

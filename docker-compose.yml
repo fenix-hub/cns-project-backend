@@ -22,6 +22,7 @@ services:
       - RTMP_PORT=1935
       - HTTP_PORT=3000
       - WS_PORT=3001
+      - DEBUG=true
     networks:
       - app-network
 
