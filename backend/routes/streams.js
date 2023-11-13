@@ -10,6 +10,7 @@ const router = express.Router();
 const Stream = require("../schema/stream");
 const Metrics = require("../schema/metrics");
 const View = require("../schema/view");
+const StreamKey = require("../schema/streamKey");
 
 /*
  * POST /streams/key
@@ -17,7 +18,17 @@ const View = require("../schema/view");
  * Create a new stream and return its key.
  */
 router.post('/key', async function (req, res, next) {
-    return res.status(200).json({key: await Stream.generateKey()});
+    // Extract client IP address and user agent
+    const {sessionId} = getClientInfo(req);
+
+    const streamKey = new StreamKey({
+        key: StreamKey.generate(),
+        sessionId,
+        timestamp: new Date().toISOString(),
+    });
+    streamKey.save().then(() => {
+        res.status(200).json(streamKey);
+    });
 });
 
 /*

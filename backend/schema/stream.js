@@ -16,6 +16,4 @@ const streamSchema = new Schema({
 });
 
 const Stream = mongoose.model('Stream', streamSchema);
-Stream.generateKey = () => hash(Date.now());
-
 module.exports = Stream;
